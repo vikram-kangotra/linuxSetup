@@ -6,14 +6,29 @@ then
 	exit
 fi
 
+git_clone() {
+    direc="${HOME}/.config/nvim/pack/github/start"
+    folder=$(echo $1 | rev | cut -d'/' -f1 | rev)
+    folder=$(echo $folder | cut -d'.' -f1-2 )
+
+    direc=$direc/$folder
+
+    if [ ! -d "$direc" ]
+    then 
+        git clone "$1" "$direc"
+    fi
+}
+
 add_nvim_plugins() {
     dir="${HOME}/.config/nvim/pack/github/start"
     mkdir -p $dir
     echo "downloading plugins..."
-    git clone https://github.com/turbio/bracey.vim.git $dir/bracey.vim
-    git clone https://github.com/neoclide/coc.nvim.git $dir/coc.nvim
-    git clone https://github.com/github/copilot.vim.git $dir/copilot.vim
-    git clone https://github.com/preservim/nerdtree.git $dir/nerdtree
+
+    git_clone https://github.com/turbio/bracey.vim.git
+    git_clone https://github.com/neoclide/coc.nvim.git
+    git_clone https://github.com/github/copilot.vim.git
+    git_clone https://github.com/preservim/nerdtree.git
+
 
     if ! dpkg -s npm >/dev/null 2>&1; then
         echo "Installing npm..."
@@ -21,6 +36,8 @@ add_nvim_plugins() {
     fi
 
     npm install --prefix $dir/coc.nvim
+
+    echo $dir/coc.nvim
 
     npm install coc-clangd
 }
@@ -38,5 +55,9 @@ manual() {
 
 copy_file nvim "${HOME}/.config"
 add_nvim_plugins
+
+echo -e "\n\n"
+echo "We require root permission to proceed with the following tasks..."
+sudo ./run-root.sh
 
 manual
