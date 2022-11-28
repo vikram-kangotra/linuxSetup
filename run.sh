@@ -35,6 +35,7 @@ add_nvim_plugins() {
         curl -sL install-node.vercel.app/lts | bash
     fi
 
+    npm install --prefix $dir/bracey.vim/server
     npm install --prefix $dir/coc.nvim
 
     echo $dir/coc.nvim
