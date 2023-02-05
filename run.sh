@@ -6,12 +6,11 @@ then
 	exit
 fi
 
-git_clone() {
-    direc="${HOME}/.config/nvim/pack/github/start"
-    folder=$(echo $1 | rev | cut -d'/' -f1 | rev)
-    folder=$(echo $folder | cut -d'.' -f1-2 )
+dir="${HOME}/.config/nvim/pack/github/start"
 
-    direc=$direc/$folder
+git_clone() {
+
+    direc=$dir/$(basename $1 | cut -d. -f1-2)
 
     if [ ! -d "$direc" ]
     then 
@@ -20,7 +19,6 @@ git_clone() {
 }
 
 add_nvim_plugins() {
-    dir="${HOME}/.config/nvim/pack/github/start"
     mkdir -p $dir
     echo "downloading plugins..."
 
@@ -28,7 +26,15 @@ add_nvim_plugins() {
     git_clone https://github.com/neoclide/coc.nvim.git
     git_clone https://github.com/github/copilot.vim.git
     git_clone https://github.com/preservim/nerdtree.git
-
+    git_clone https://gitlab.com/gabmus/vim-blueprint.git
+    git_clone https://github.com/Pocco81/auto-save.nvim
+    git_clone https://github.com/lewis6991/gitsigns.nvim
+    git_clone https://github.com/Yggdroot/indentLine
+    git_clone https://github.com/nvim-lualine/lualine.nvim
+    git_clone https://github.com/tomasiser/vim-code-dark
+    git_clone https://github.com/ryanoasis/vim-devicons
+    git_clone https://github.com/voldikss/vim-floaterm
+    git_clone https://github.com/tpope/vim-fugitive
 
     if ! dpkg -s npm >/dev/null 2>&1; then
         echo "Installing npm..."
@@ -38,9 +44,8 @@ add_nvim_plugins() {
     npm install --prefix $dir/bracey.vim/server
     npm install --prefix $dir/coc.nvim
 
-    echo $dir/coc.nvim
-
     npm install coc-clangd
+    npm install coc-tsserver
 }
 
 copy_file() {
@@ -50,7 +55,7 @@ copy_file() {
 
 manual() {
 	echo -e "\n\n"
-	echo "Manual workk required:"
+	echo "Manual work required:"
 	echo "Open any cpp fie and run :CocCommand clangd.install"
 }
 
