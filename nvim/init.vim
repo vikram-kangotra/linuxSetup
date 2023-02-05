@@ -21,6 +21,8 @@ set cursorline
 set ttyfast
 set noswapfile
 
+colorscheme codedark
+
 let mapleader = ','
 
 nnoremap <leader>" viwo<esc>i"<esc>ea"<esc>l
@@ -46,11 +48,15 @@ inoremap jk <Esc>
 
 nnoremap <leader>e :NERDTreeToggle<CR>
 
-nnoremap <C-e> :Copilot enable<CR>
-nnoremap <C-d> :Copilot disable<CR>
+nnoremap <silent> <C-e> :Copilot enable<CR>
+nnoremap <silent> <C-d> :Copilot disable<CR>
 
 inoremap <C-e> <esc>:Copilot enable<CR>a
 inoremap <C-d> <esc>:Copilot disable<CR>a
+
+noremap <leader><space> :FloatermToggle<CR>
+
+lua require('config')
 
 " May need for vim (not neovim) since coc.nvim calculate byte offset by count
 " utf-8 byte sequence.
