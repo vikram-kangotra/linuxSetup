@@ -57,6 +57,7 @@ manual() {
 	echo -e "\n\n"
 	echo "Manual work required:"
 	echo "Open any cpp fie and run :CocCommand clangd.install"
+	echo ":Copilot setup"
 }
 
 copy_file nvim "${HOME}/.config"
